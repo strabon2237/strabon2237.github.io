@@ -1,0 +1,80 @@
+McCabe-Thiele Analysis Using NRTL Model
+
+This MATLAB code performs distillation analysis for a binary mixture using the NRTL thermodynamic model to calculate equilibrium data. 
+It also includes a McCabe-Thiele stepwise calculation and a sensitivity analysis of reflux ratio versus number of stages. 
+The code can handle both experimental data and model-based equilibrium curves.
+
+Features
+Equilibrium Curve Calculation
+  Uses NRTL activity coefficient model to predict vapor-liquid equilibrium (VLE) for a binary mixture.
+  Bubble point temperature and equilibrium compositions are calculated using Antoine constants and NRTL parameters.
+  Provides a smooth interpolation of the equilibrium curve for plotting and stage calculations.
+
+McCabe-Thiele Method
+  Implements the stepwise graphical method to calculate the number of stages required for a given separation.
+  Considers both rectifying and stripping sections, as well as a q-line representing feed conditions.
+  Can handle fractional stages for improved accuracy.
+
+Operating Lines
+  Calculates the rectifying line using the specified reflux ratio R.
+  Calculates the stripping line using material balances at the feed intersection.
+  Plots the operating lines along with equilibrium and 45° line for visualization.
+
+Sensitivity Analysis
+  Computes the effect of varying the reflux ratio (R) on the number of stages required.
+  Determines minimum reflux and minimum stripping line slope using NRTL-based equilibrium data.
+  Provides insight into optimal column design.
+
+Experimental Data Integration
+  Accepts experimental liquid and vapor composition data for comparison with the NRTL model.
+  Calculates mean squared error (MSE) to quantify model fit.
+
+Inputs
+  P – System pressure (kPa).
+  x1_vals – Sweep of liquid mole fractions (0–1) for equilibrium curve calculation.
+  ant1, ant2 – Antoine constants for components 1 and 2 [A, B, C].
+  b12, b21, alpha – NRTL binary interaction parameters.
+  R – Reflux ratio for the rectifying section.
+  xd, xb – Distillate and bottom product mole fractions.
+  xz – Feed mole fraction.
+  q – Feed quality (liquid fraction).
+  x, y – Experimental liquid and vapor mole fractions for validation.
+
+Outputs
+  Equilibrium Curve – y1star (vapor mole fraction) calculated from NRTL.
+  McCabe-Thiele Plot – Operating lines, q-line, and stage stepping.
+  Number of Stages – Total stages calculated stepwise with optional fractional stage.
+  Sensitivity Analysis Plot – Reflux ratio versus required number of stages.
+  MSE – Quantitative error between model prediction and experimental data.
+
+Key Functions
+  equilibrium(x1_vals, P, ant1, ant2, parameters)
+    Calculates equilibrium vapor mole fraction for each liquid composition using the NRTL model.
+  nrtl_bubble(T, x1, x2, P, b12, b21, alpha, ant1, ant2, R)
+    Solves bubble point temperature for given composition and NRTL parameters.
+  NRTL_minimum_rect(x1_vals, y1star, xd, xz,q)
+    Calculates minimum reflux ratio from equilibrium curve and feed conditions.
+  NRTL_minimum_strip(x1_vals, y1star, xb, xz,q)
+    Calculates slope of minimum stripping line.
+  NRTL_minimum_stages(x1_vals, y1star, xd, xb)
+    Computes the minimum number of stages required for separation.
+  MSE(x, y, P, ant1, ant2, parameters)
+    Calculates mean squared error between experimental vapor fractions and model predictions.
+
+How to Use
+  Set the system pressure, Antoine constants, and NRTL parameters.
+  Define feed, distillate, and bottom mole fractions.
+  Run equilibrium to generate NRTL-based VLE curve.
+  Use the McCabe-Thiele section to step through stages and plot the column operation.
+  Optionally, run sensitivity analysis by varying reflux ratio to study its effect on the number of stages.
+  Compare results with experimental data and calculate MSE.
+
+Notes
+  The code uses fsolve to solve nonlinear bubble point equations and intersection points.
+  NRTL might not be suited for all interactions. I wanted to expand our in class discussion on McCabe Thieve analysis to non ideal systems and NRTL was a property method
+  I have noticed in Aspen Plus and was curious on. 
+  The stepwise McCabe-Thiele calculation includes a safety break for 50 stages to avoid infinite loops in edge cases. The stepwise McCabe-Thiele analysis can be further
+  improved by adding efficiency calculations in future implementations. 
+  Sensitivity analysis helps optimize column design and identify practical reflux ratios. Future implementation will be look at with implementing operating costs vs
+  capital costs based on this preliminary sensitivity analysis. 
+
