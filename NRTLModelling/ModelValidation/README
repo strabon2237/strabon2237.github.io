@@ -1,1 +1,18 @@
 Files relating to validating this MatLab script against other computer solvers
+
+Calculations:
+Inputs for my script and Aspen Plus: 
+xb = .2
+xd = .8
+Reflux Ratio = 3
+Pressure = 101.33 kPA
+q = 0.5    (In Aspen, this is vapor fraction)
+Equimolar water-acetone stream
+
+Values Compared: Calculated  number of stages.
+Matlab Script:
+  stages = 1.22
+Aspen Plus:
+  stages = 1.15
+
+(1.22-1.15)/1.15 * 100% = 6.1% differences
